@@ -1,0 +1,2 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+* { box-sizing:border-box } body { margin:0; background:#f5f2e9; color:#10241f; font-family:Arial,sans-serif } button { font:inherit } .card { @apply rounded-3xl bg-white shadow-sm border border-ink/10 } .tap { @apply active:scale-[.98] transition-transform } .eyebrow { @apply text-[11px] uppercase tracking-[.18em] font-bold text-moss } 

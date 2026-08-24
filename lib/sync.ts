@@ -1,0 +1,4 @@
+import { createClient } from "@supabase/supabase-js"; import { db } from "./db";
+const url=process.env.NEXT_PUBLIC_SUPABASE_URL, key=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase=url&&key?createClient(url,key):null;
+export async function flushQueue(){if(!navigator.onLine||!supabase)return {synced:0,offline:!navigator.onLine}; const pending=await db.syncQueue.where("synced").equals(0).toArray(); let synced=0; for(const action of pending){try{const {error}=await supabase.from("sync_events").upsert({id:action.id,event_type:action.type,payload:action.payload,created_at:action.createdAt},{onConflict:"id"});if(error)throw error;await db.syncQueue.update(action.id,{synced:true});synced++}catch{await db.syncQueue.update(action.id,{retryCount:action.retryCount+1})}} return {synced,offline:false}}

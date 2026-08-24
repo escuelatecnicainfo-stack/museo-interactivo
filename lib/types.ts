@@ -1,0 +1,9 @@
+export type Category = "Herbívoro"|"Carnívoro"|"Acuático"|"Volador"|"Anomalía";
+export type MissionType = "tutorial"|"exploración"|"colección"|"fotografía"|"investigación"|"secreta"|"evento";
+export type PhotoStatus = "LOCAL"|"PENDING_UPLOAD"|"UPLOADING"|"UPLOADED"|"FAILED";
+export type Creature = { id:string; commonName:string; scientificName:string; category:Category; period:string; weight:string; height:string; length:string; diet:string; habitat:string; description:string; fact:string; image:string; zone:string; xp:number; downloaded:boolean };
+export type Mission = { id:string; title:string; description:string; type:MissionType; target:number; current:number; xpReward:number; hidden:boolean; status:"locked"|"active"|"completed"; metric:"discoveries"|"photos"|"anomalies" };
+export type Achievement = { id:string; name:string; description:string; icon:string; xpReward:number; unlockedAt?:string };
+export type Profile = { id:string; displayName:string; totalXp:number; level:number; discoveries:string[]; favoriteIds:string[]; completedMissionIds:string[]; achievementIds:string[]; updatedAt:string };
+export type QueueAction = { id:string; type:"CREATURE_DISCOVERED"|"MISSION_PROGRESS"|"MISSION_COMPLETED"|"PHOTO_CREATED"|"PHOTO_UPLOADED"|"ACHIEVEMENT_UNLOCKED"|"XP_GAINED"|"PROFILE_UPDATED"; payload:Record<string,unknown>; createdAt:string; synced:boolean; retryCount:number };
+export type LocalPhoto = { id:string; creatureId?:string; blob:Blob; status:PhotoStatus; createdAt:string };

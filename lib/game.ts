@@ -1,0 +1,5 @@
+import { achievements, missions } from "./data"; import type { Achievement, Mission, Profile } from "./types";
+export const levelForXp=(xp:number)=> xp>=1000?5:xp>=500?4:xp>=250?3:xp>=100?2:1;
+export const xpUntilNext=(xp:number)=>[100,250,500,1000,1500].find(n=>n>xp)??1500;
+export function progress(profile:Profile, photoCount:number){return missions.map(m=>{const current=m.metric==="discoveries"?profile.discoveries.length:m.metric==="photos"?photoCount:profile.discoveries.filter(id=>id.includes("anomaly")).length;return {...m,current,status:(profile.completedMissionIds.includes(m.id)?"completed":"active") as Mission["status"]}})}
+export function earned(profile:Profile, photoCount:number):Achievement[]{const ids=new Set(profile.achievementIds); const candidates=[profile.discoveries.length>=1&&"first",profile.discoveries.length>=5&&"explorer",profile.discoveries.some(id=>id.includes("anomaly"))&&"anomaly",photoCount>=5&&"photographer",profile.discoveries.length>=12&&"collector"].filter(Boolean) as string[]; return achievements.filter(a=>candidates.includes(a.id)&&!ids.has(a.id))}
